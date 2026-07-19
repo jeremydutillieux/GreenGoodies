@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home Page{% endblock %}
+
+{% block body %}
+<div class="bienvenue">
+    <div class="text-col">
+    <h1>Bienvenue</h1>
+    <p>Découvrez notre univers de produits durables et éthiques pour une consommation responsable
+    </br>
+    </br>
+    Retrouvez des articles d’hygiène & beauté, des accessoires & boissons et du prêt à porter</p>
+    </div>
+    <div class="image-col">
+        <img src="{{ asset("assets/home/acceuil1.jpg")}}">
+    </div>
+</div>
+
+<div class="produits">
+    <h2>NOS PRODUITS</h2>
+    <div class="catalog-article">
+    {% for article in articles%}
+        <article>
+            <div class="card-article">
+            <img src="{{asset(article.photo)}}">
+            <h3>{{article.nom}}</h3>
+            <p>{{article.prix}} €</p>
+            <p>{{article.descriptionCourte}}</p>
+            <a href="{{ path('app_article', {id: article.id}) }}">Voir le produit</a>
+            </div>
+        </article>
+    {% endfor %}
+    </div>
+</div>
+
+
+<div class="conviction">
+    <div class="text-col">
+        <h3>NOTRE CONVICTION</h3>
+        <p>
+        Chez GreenGoodies, nous croyons en un monde où le commerce peut être synonyme
+         de bien-être pour la planète et ses habitants. Notre mission est de vous proposer
+          une sélection rigoureuse de produits qui allient qualité, durabilité et éthique</p>
+    </div>
+    <div class="image-col">
+    <img src="{{ asset("assets/home/conviction.jpg")}}">
+    </div>
+</div>
+<div class="valeur">
+    <div class="image-col">
+    <img src="{{ asset("assets/home/valeur.jpg")}}">
+    </div>
+    <div class="text-col">
+        <h3>NOS VALEURS</h3>
+        <p>
+            Durabilité : Nous sélectionnons soigneusement des produits qui respectent l'environnement et favorisent la durabilité.
+Éthique : Nous nous engageons à travailler avec des partenaires et des fournisseurs qui partagent nos valeurs éthiques.
+Écologie : Nous encourageons des pratiques respectueuses de l'écosystème et privilégions les matériaux écologiques.
+        </p>
+    </div>   
+</div>
+
+{% endblock %}

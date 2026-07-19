@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+<div class="inscription">
+            <div class="image-col">
+                <img src="{{asset('assets/home/register.jpg')}}">
+            </div>
+            <div class="text-col">
+            {{ form_start(registerForm)}}
+            <h1>Inscription</h1>
+            <p class="hint">Tous les champs sont obligatoires</p>
+            <div class="col-center">
+                <div class="label">
+                {{ form_label(registerForm.nom) }}
+                </div>
+                <div class="input">{{ form_widget(registerForm.nom) }}</div>
+                <div class="error-wrapper">{{ form_errors(registerForm.nom) }}</div>
+            </div>
+            <div class="col-center">
+            <div class="label">
+                {{ form_label(registerForm.prenom) }}
+                </div>
+                <div class="input">{{ form_widget(registerForm.prenom) }}</div>
+                <div class="error-wrapper">{{ form_errors(registerForm.prenom) }}</div>
+            </div>
+            <div class="col-center">
+            <div class="label">
+                {{ form_label(registerForm.email) }}
+                </div>
+                <div class="input">{{ form_widget(registerForm.email) }}</div>
+                <div class="error-wrapper">{{ form_errors(registerForm.email) }}</div>
+            </div>
+            <div class="col-center">
+                <div class="label">
+                {{ form_label(registerForm.plainPassword.first) }}
+                </div>
+                <div class="input">{{ form_widget(registerForm.plainPassword.first) }}</div>
+                <div class="error-wrapper">{{ form_errors(registerForm.plainPassword.first) }}</div>
+            </div>
+            <div class="col-center">
+                <div class="label">
+                {{ form_label(registerForm.plainPassword.second) }}
+                </div>
+                <div class="input">{{ form_widget(registerForm.plainPassword.second) }}</div>
+                <div  class="error-wrapper">{{ form_errors(registerForm.plainPassword.second) }}</div>
+            </div>
+            <div class="form-check">
+                {{ form_widget(registerForm.cgu) }}
+                {{ form_label(registerForm.cgu) }}
+                {{ form_errors(registerForm.cgu) }}
+            </div>
+            <button class="btn" type="submit" >S'inscrire</button>
+            <div class="lien_inscription">
+                <a href={{ path('app_login') }}> Vous avez déjà un compte? Connectez vous</a>
+            </div>
+            
+            {{ form_end(registerForm)}}
+
+            </div>
+</div>
+{% endblock %}

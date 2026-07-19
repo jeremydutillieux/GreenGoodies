@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+    <div class="connexion">
+            <div class="image-col">
+                <img src="{{asset('assets/home/conviction.jpg')}}">
+            </div>
+            <div class="text-col">
+        <form method="post">
+        {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+
+        {% if app.user %}
+            <div class="mb-3">
+                You are logged in as {{ app.user.userIdentifier }}, <a href="{{ logout_path() }}">Logout</a>
+            </div>
+        {% endif %}
+            <h1>Connexion</h1>
+            <div class="col-center">
+                <div class="label">
+                    <label for="username">Email* :</label>
+                </div>
+                <div>
+                    <input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="email" required autofocus>
+                </div>
+            </div>
+            <div class="col-center">
+                <div class="label">
+                    <label for="password">Mot de passe* :</label>
+                </div>
+                <div>
+                    <input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required>
+                    <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
+                </div>
+            </div>
+                <button class="btn ml15" type="submit">
+                    Se Connecter
+                </button>
+                <div class="lien_inscription">
+                    <a href={{ path('app_register') }}> Pas de compte? S'inscrire</a>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}
