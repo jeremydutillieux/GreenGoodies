@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon panier{% endblock %}
+
+{% block body %}
+<h1 class="text-center"> Mon panier</h1>
+<div class="panier">
+<a href="{{ path('app_panier_vider')}}" class="vider_panier">x Vider le panier</a>
+{% for item in panier%}
+    <div class="panier-ligne">
+        <div>
+            <img src="{{ asset(item.article.photo) }}" alt="{{ item.article.nom }}">
+        </div>
+        <div>
+        <h2>{{ item.article.nom }}</h2>
+        <div class="petit-texte-grise">Quantité : {{ item.qte }}</div>
+        <div class="prix_panier">{{ item.article.prix }} €</div>
+        </div>
+    </div>
+    
+{% endfor %}
+<div class="total">
+        <div>
+        <div class="total-panier">
+            Total : {{ total }} €
+        </div>
+        <div class="petit-texte-grise">
+            frais de livraison : offert
+        </div>
+        </div>
+    </div>
+</div>
+<div class="w-479 m-auto mb10">
+<button class="btn">Valider la commande</button>
+</div>
+{% endblock %}

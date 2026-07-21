@@ -13,7 +13,7 @@
     <p class="prix">{{ article.prix}} €</p>
     <p class="description">Description:</p>
     <p class="description">{{article.descriptionLongue}}</p>
-    <form action="" method="POST">
+    <form action="{{ path('app_panier_ajout', {'id' : article.id}) }}" method="POST">
     <label for="qte">Quantité :</label>
     <input type="number" id="qte" name="qte" min="1" value="1">
     <button class="btn" type="submit">Ajouter au panier</button>
