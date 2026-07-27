@@ -16,28 +16,16 @@ class CommandesRepository extends ServiceEntityRepository
         parent::__construct($registry, Commandes::class);
     }
 
-    //    /**
-    //     * @return Commandes[] Returns an array of Commandes objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
-    //            ->setParameter('val', $value)
+    
+    public function findByUser($value): array
+   {
+        return $this->createQueryBuilder('c')
+        ->andWhere('c.createdby = :val')
+        ->setParameter('val', $value)
     //            ->orderBy('c.id', 'ASC')
     //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?Commandes
-    //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        ->getQuery()
+        ->getResult()
+    ;
+    }
 }

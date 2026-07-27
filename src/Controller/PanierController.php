@@ -2,8 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Commandes;
+use App\Entity\LignesCommande;
 use App\Repository\ArticlesRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -68,5 +72,44 @@ final class PanierController extends AbstractController
     {
         $session->remove('panier');    
         return $this->redirectToRoute('app_panier');
+    }
+
+    #[IsGranted('ROLE_USER')]
+    #[Route('/panier/valider', name: 'app_panier_valider')]
+    public function validerPanier(  SessionInterface $session,  ArticlesRepository $articles, EntityManagerInterface $em, Security $security): Response
+    {
+
+        $panierSession= $session->get('panier',[]);
+
+        if (empty($panierSession)){
+            $this->redirectToRoute('app_panier');
+        }
+
+        $commande= new Commandes();
+        $commande->setCreatedby($security->getUser());
+        $commande->setDateCommande(new \DateTimeImmutable('today'));
+
+        $total= 0;
+
+        foreach ($panierSession as $id=> $item){
+            $article=$articles->find($id);
+            if($article){
+                $ligne = new LignesCommande();
+                $ligne->setArticle($article);
+                $ligne->setQuantité($item['qte']);
+                $ligne->setPrixUnitaire($article->getPrix());
+                $ligne->setCommande($commande);
+                $commande->addLignesCommande($ligne);
+                $total += $article->getPrix() * $item['qte'];
+            }
+        }
+
+        $commande->setTotal($total);
+        $em->persist($commande);
+        $em->flush();
+
+        $session->remove('panier');
+       
+        return $this->redirectToRoute('app_compte');
     }
 }

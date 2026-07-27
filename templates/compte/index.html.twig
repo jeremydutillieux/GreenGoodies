@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon compte{% endblock %}
+
+{% block body %}
+<h1 class="text-center"> Mon Compte</h1>
+<div class="commandes">
+<h2 class="title-bloc">Mes Commandes</h2></br>
+    <table>
+    <thead>
+        <tr>
+            <th>N°</th>
+            <th>Date</th>
+            <th>Prix</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for commande in commandes %}
+    <tr>
+        <td>{{ commande.id}}</td>
+        <td>{{ commande.dateCommande|date('d/m/Y')}}</td>
+        <td>{{ commande.total}} €</td>
+    </tr>
+    {% else %}
+    <tr>
+        <td colspan="3">Vous n'avez pas encore passé de commande.</td>
+    </tr>
+    
+    {% endfor %}
+    </tbody>
+    </table>
+</div>
+<div class="api">
+<h2 class="title-bloc">Mon accès API</h2></br>
+<div class="w-479 m-auto mb10">
+<button class="btn">Activer mon acces api</button>
+</div>
+</div>
+<div class="suppression">
+<div class="w-479 m-auto mb10">
+<form action="{{ path('app_compte_suppression') }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.');">
+    <button type="submit" class="btn">Supprimer mon compte</button>
+</form>
+</div>
+</div>
+
+{% endblock %}

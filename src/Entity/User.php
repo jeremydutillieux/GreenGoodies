@@ -9,9 +9,11 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
+#[UniqueEntity(fields: ['email'], message: 'Un compte existe déjà avec cet email.')]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -37,7 +39,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Commandes>
      */
-    #[ORM\OneToMany(targetEntity: Commandes::class, mappedBy: 'createdby')]
+    #[ORM\OneToMany(targetEntity: Commandes::class, mappedBy: 'createdby',cascade: ['remove'])]
     private Collection $commandes;
 
     public function __construct()
