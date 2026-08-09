@@ -21,7 +21,8 @@ final class CompteController extends AbstractController
     {
         $user= $security->getUser();
         $commandes= $commandesRepo->findByUser($user);
-        
+        #$commandes2= $commandesRepo->findByCreatedby($user);
+        #dump($commandes2,$commandes);
 
         return $this->render('compte/index.html.twig', [
             'commandes' => $commandes,
@@ -50,4 +51,18 @@ final class CompteController extends AbstractController
 
     }
     
+    #[Route('/compte/activer-api', name: 'app_compte_activer_api', methods: ['POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function activerApi(EntityManagerInterface $manager, Security $security): Response
+    {
+        $user = $security->getUser();
+        if (!$user instanceof User) {
+            throw $this->createAccessDeniedException();
+        }
+
+        $user->setApiAccessEnabled(true);
+        $manager->flush();
+
+        return $this->redirectToRoute('app_compte');
+    }
 }

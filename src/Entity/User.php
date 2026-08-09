@@ -212,5 +212,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $data;
     }
+
+    #[ORM\Column]
+    private bool $apiAccessEnabled = false;
+
+    public function getApiAccessEnabled(): bool
+    {
+        return $this->apiAccessEnabled;
+    }
+
+    public function setApiAccessEnabled(bool $apiAccessEnabled): static
+    {
+        $this->apiAccessEnabled = $apiAccessEnabled;
+        return $this;
+    }
     
 }

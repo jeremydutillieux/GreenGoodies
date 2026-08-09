@@ -33,7 +33,16 @@
 <div class="api">
 <h2 class="title-bloc">Mon accès API</h2></br>
 <div class="w-479 m-auto mb10">
-<button class="btn">Activer mon acces api</button>
+<form action="{{ path('app_compte_activer_api') }}" method="POST">
+
+    {% if app.user.apiAccessEnabled %}
+        <span class ="badge-active">Accès API activé </span>
+    {% else %}
+        <button type="submit" class="btn">
+            Activer mon acces api
+        </button>
+    {% endif %}
+</form>
 </div>
 </div>
 <div class="suppression">
