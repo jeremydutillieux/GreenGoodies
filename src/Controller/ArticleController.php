@@ -9,6 +9,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Contracts\Cache\ItemInterface;
+use Symfony\Contracts\Cache\TagAwareCacheInterface;
 
 final class ArticleController extends AbstractController
 {
@@ -37,9 +39,17 @@ final class ArticleController extends AbstractController
     }
 
     #[Route('/api/articles', name: 'api_article', methods: ['GET'])]
-    public function getArticleList(ArticlesRepository $repository, SerializerInterface $serializer): JsonResponse
+    public function getArticleList(ArticlesRepository $repository, SerializerInterface $serializer, TagAwareCacheInterface $cache): JsonResponse
     {
-        $articles= $repository->findAll();
+        
+        $idCache = "listeArticle";
+        $articles = $cache->get($idCache, function (ItemInterface $item) use ($repository){
+            echo('element pas encore dans le cache');
+            $item->tag('articlesCache');   
+            return $repository->findAll();
+        });
+        
+
         $jsonArticlesList= $serializer->serialize($articles, 'json', ['groups' => 'article:read']);
 
         return new JsonResponse($jsonArticlesList, Response::HTTP_OK,[],true);
@@ -48,7 +58,7 @@ final class ArticleController extends AbstractController
     #[Route('/api/articles/{id}', name: 'api_details_article', methods: ['GET'])]
     public function getArticleId(?Articles $article, SerializerInterface $serializer): JsonResponse
     {
-       # $article= $repository->find($id);;
+       # $article= $repository->find($id);
        # $jsonArticle= $serializer->serialize($article, 'json', ['groups' => 'article:read']);
 
        # if (!$article)

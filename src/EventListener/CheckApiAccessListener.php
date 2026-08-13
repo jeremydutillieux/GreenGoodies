@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Http\Event\CheckPassportEvent;
 
-#[AsEventListener(event: CheckPassportEvent::class)]
+#[AsEventListener(event: CheckPassportEvent::class, priority: -10)]
 final class CheckApiAccessListener
 {
 
@@ -16,11 +16,11 @@ final class CheckApiAccessListener
         private RequestStack $requestStack
     ) {}
 
-    #[AsEventListener]
+
     public function __invoke(CheckPassportEvent $event): void
     {
         $request = $this->requestStack->getCurrentRequest();
-        if (!$request || !str_starts_with($request->getPathInfo(), '/api/login_check')) {
+        if (!$request || !str_starts_with($request->getPathInfo(), '/api/login')) {
             return;
         }
        $passport = $event->getPassport();
@@ -31,7 +31,7 @@ final class CheckApiAccessListener
         }
 
         if (!$user->getApiAccessEnabled()) {
-            throw new CustomUserMessageAuthenticationException('Accès API non activé. Merci de l\'activer depuis votre compte.');
+            throw new CustomUserMessageAuthenticationException('api_access_disabled');
         }
     }
 }
