@@ -16,7 +16,7 @@ Site e-commerce développé avec Symfony, incluant une API REST sécurisée par 
 ### 1. Cloner le projet
 
 ```bash
-git clone <url-du-depot>
+git clone https://github.com/jeremydutillieux/GreenGoodies
 cd GreenGoodies
 ```
 
