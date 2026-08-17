@@ -49,7 +49,7 @@ symfony console doctrine:migrations:migrate
 symfony console doctrine:fixtures:load
 ```
 
-### 7. Lancer le serveur
+### 6. Lancer le serveur
 
 ```bash
 symfony server:start
